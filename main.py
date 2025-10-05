@@ -11,12 +11,12 @@ def load_demo_data():
         with open("demo_data.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
+        users_data = data.get("users", [])
         users = []
-        for item in data:
+        for item in users_data:
             user = User(
-                username=item['username'],
-                email=item['email'],
-                created_at=item['created_at']
+                username=item["username"],
+                email=item["email"]
             )
             users.append(user)
 
@@ -28,13 +28,13 @@ def insert_posts():
         with open("demo_data.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
+        posts_data = data.get("posts", [])
         posts = []
-        for item in data:
+        for item in posts_data:
             post = Post(
-                title=item['title'],
-                body=item['body'],
-                user_id=item['user_id'],
-                created_at=item['created_at']
+                title=item["title"],
+                body=item["body"],
+                user_id=item["user_id"]
             )
             posts.append(post)
 
@@ -46,13 +46,13 @@ def insert_comments():
         with open("demo_data.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
+        comments_data = data.get("comments", [])
         comments = []
-        for item in data:
+        for item in comments_data:
             comment = Comment(
-                text=item['text'],
-                post_id=item['post_id'],
-                user_id=item['user_id'],
-                created_at=item['created_at']
+                text=item["text"],
+                user_id=item["user_id"],
+                post_id=item["post_id"]
             )
             comments.append(comment)
 
