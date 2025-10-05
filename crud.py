@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from models import User, Post, Comment
+from sqlalchemy import func
 
-# CRUD
 def create_user(db: Session, username: str, email: str):
     new = User(username=username, email=email)
     db.add(new)
@@ -17,7 +17,7 @@ def create_post(db: Session, user_id: int, title: str, body: str):
     return new
 
 def create_comment(db: Session, user_id: int, post_id: int, text: str):
-    new = Comment(user_id=user_id,post_id=post_id, text=text )
+    new = Comment(user_id=user_id, post_id=post_id, text=text)
     db.add(new)
     db.commit()
     db.refresh(new)
@@ -41,20 +41,17 @@ def delete_post(db: Session, post_id: int):
     db.commit()
     return True
 
-# Queries
 def get_user_posts(db: Session, user_id: int):
     return db.query(Post).filter(Post.user_id == user_id).all()
 
 def get_post_comment_count(db: Session, post_id: int):
-    return db.query(Comment).count(Comment.post_id == post_id).all()
+    return db.query(func.count(Comment.id)).filter(Comment.post_id == post_id).scalar()
 
 def get_latest_posts(db: Session, limit: int = 5):
     return db.query(Post).order_by(Post.created_at.desc()).limit(limit).all()
 
-
 def search_posts_by_title(db: Session, keyword: str):
     return db.query(Post).filter(Post.title.ilike(f"%{keyword}%")).all()
-
 
 def paginate_posts(db: Session, page: int = 1, per_page: int = 5):
     return (
