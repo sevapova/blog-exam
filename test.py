@@ -21,7 +21,7 @@ comment2 = crud.create_comment(db, user.id, post1.id, "Yaxshi yozilgan")
 print("Comments:", comment1.text, ",", comment2.text)
 
 count = crud.get_post_comment_count(db, post1.id)
-print(f"Comment count'{post1.title}':", count)
+print(f"Comment {post1.title}':", count)
 
 latest_posts = crud.get_latest_posts(db, limit=5)
 print("Posts:", [p.title for p in latest_posts])
